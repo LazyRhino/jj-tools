@@ -1,0 +1,8 @@
+# JJ & Git temporary files
+.jj/
+.git/
+
+# Only if you use them
+node_modules/
+*.log
+.DS_Store
