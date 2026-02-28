@@ -23,10 +23,10 @@ Centralized repository for JJ (Jujutsu) workflow utility scripts.
 
 ```toml
 [aliases]
-tug      = ["util", "exec", "--", "/home/rhyno/code/jj-tools/scripts/jj-tug.sh"]
-ws-merge = ["util", "exec", "--", "/home/rhyno/code/jj-tools/scripts/jj-ws-merge.sh"]
-sync     = ["util", "exec", "--", "/home/rhyno/code/jj-tools/scripts/jj-sync.sh"]
-pr       = ["util", "exec", "--", "/home/rhyno/code/jj-tools/scripts/jj-pr.sh"]
+tug      = ["util", "exec", "--", "/path/to/jj-tools/scripts/jj-tug.sh"]
+ws-merge = ["util", "exec", "--", "/path/to/jj-tools/scripts/jj-ws-merge.sh"]
+sync     = ["util", "exec", "--", "/path/to/jj-tools/scripts/jj-sync.sh"]
+pr       = ["util", "exec", "--", "/path/to/jj-tools/scripts/jj-pr.sh"]
 ```
 
 ## Workflows

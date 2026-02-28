@@ -9,7 +9,7 @@ jj workspace update-stale
 
 # Check if the current commit is empty. If not, create a new empty commit on top.
 # This 'seals' any squashed work from other workspaces into the history.
-IS_EMPTY=$(jj log -r @ -T 'empty' --no-pager)
+IS_EMPTY=$(jj log -r @ -T 'empty' --no-pager --no-graph)
 
 if [ "$IS_EMPTY" = "false" ]; then
   echo "Sealing squashed changes into history..."
