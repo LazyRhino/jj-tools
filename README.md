@@ -7,16 +7,17 @@ Centralized repository for JJ (Jujutsu) workflow utility scripts.
 - **`jj-tug.sh`**: Fetches latest changes, rebases onto `main`, moves the `main` bookmark, and pushes to GitHub.
 - **`jj-ws-merge.sh`**: Merges work from a feature workspace into the main workspace, exports to Git, and resets the feature workspace.
 - **`jj-sync.sh`**: Syncs the main workspace, updates stale pointers, and seals squashed changes into a new commit.
+- **`jj-pr.sh`**: Helper for bookmark-based PR workflows (pushing bookmarks and syncing with trunk).
 
 ## Setup
 
 1. Clone this repository:
    ```bash
-   git clone [repo-url] ~/code/jj-tools
+   git clone [repo-url] /path/to/jj-tools
    ```
 2. Make sure the scripts are executable:
    ```bash
-   chmod +x ~/code/jj-tools/scripts/*.sh
+   chmod +x /path/to/jj-tools/scripts/*.sh
    ```
 3. Update your `~/.config/jj/config.toml` with the following aliases:
 
@@ -25,6 +26,7 @@ Centralized repository for JJ (Jujutsu) workflow utility scripts.
 tug      = ["util", "exec", "--", "/home/rhyno/code/jj-tools/scripts/jj-tug.sh"]
 ws-merge = ["util", "exec", "--", "/home/rhyno/code/jj-tools/scripts/jj-ws-merge.sh"]
 sync     = ["util", "exec", "--", "/home/rhyno/code/jj-tools/scripts/jj-sync.sh"]
+pr       = ["util", "exec", "--", "/home/rhyno/code/jj-tools/scripts/jj-pr.sh"]
 ```
 
 ## Workflows
