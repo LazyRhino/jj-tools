@@ -44,12 +44,10 @@ jj git export
 echo "Repointing workspace to default@..."
 jj new "default@"
 
-echo "-------------------------------------------------------"
 echo "Merge complete! To finish in the main workspace:"
 echo "1. cd ../yoloaday"
-echo "2. jj workspace update-stale"
-echo "3. jj new           # <--- This 'seals' the work into the history"
-echo "4. jj tug           # <--- Now tug works perfectly"
+echo "2. jj sync        # <--- Updates state and exports to Git"
+echo "3. jj tug         # <--- Robustly handles rebase, sealing, and pushing"
 echo "-------------------------------------------------------"
 
 echo ""

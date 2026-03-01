@@ -19,6 +19,10 @@ else
   echo "Working copy is already empty."
 fi
 
+# Ensure local Git repo is updated
+echo "Exporting to Git..."
+jj git export
+
 echo "-------------------------------------------------------"
 echo "Workspace is synced and clean."
 jj log --limit 5 --no-pager
