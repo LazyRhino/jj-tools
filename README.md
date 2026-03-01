@@ -6,6 +6,7 @@ Centralized repository for JJ (Jujutsu) workflow utility scripts.
 
 - **`jj-tug.sh`**: Fetches latest changes, rebases onto `main`, moves the `main` bookmark, and pushes to GitHub.
 - **`jj-ws-merge.sh`**: Merges work from a feature workspace into the main workspace, exports to Git, and resets the feature workspace.
+- **`jj-ws-sync.sh`**: Rebases a feature workspace onto the current tip of `default@`, useful for keeping long-lived workspaces up to date.
 - **`jj-sync.sh`**: Syncs the main workspace, updates stale pointers, and seals squashed changes into a new commit.
 - **`jj-pr.sh`**: Helper for bookmark-based PR workflows (pushing bookmarks and syncing with trunk).
 
@@ -25,6 +26,7 @@ Centralized repository for JJ (Jujutsu) workflow utility scripts.
 [aliases]
 tug      = ["util", "exec", "--", "/path/to/jj-tools/scripts/jj-tug.sh"]
 ws-merge = ["util", "exec", "--", "/path/to/jj-tools/scripts/jj-ws-merge.sh"]
+ws-sync  = ["util", "exec", "--", "/path/to/jj-tools/scripts/jj-ws-sync.sh"]
 sync     = ["util", "exec", "--", "/path/to/jj-tools/scripts/jj-sync.sh"]
 pr       = ["util", "exec", "--", "/path/to/jj-tools/scripts/jj-pr.sh"]
 ```
@@ -56,13 +58,9 @@ Ideal for rapid, single-dev trunk-based development within a single repository f
 Recommended for working on complex features in a separate directory (`repo-feature`) while keeping the main repository (`repo-main`) clean.
 
 #### **Step A: Feature Workspace**
-1. **Develop & Name**:
+1. **Merge**: Bring changes into the main repository.
    ```bash
-   jj describe -m "feat: my new feature"
-   ```
-2. **Merge**: Bring changes into the main repository.
-   ```bash
-   jj ws-merge  # Squashes feature into default@ and exports to Git
+   jj ws-merge "feat: my new feature"  # Describes, squashes into default@, and exports to Git
    ```
 
 #### **Step B: Main Workspace**
@@ -74,6 +72,14 @@ Recommended for working on complex features in a separate directory (`repo-featu
 2. **Ship**:
    ```bash
    jj tug
+   ```
+
+#### **Step C: Catch Up Feature Workspace** *(after shipping or pulling new work)*
+If you've shipped other work in the main workspace and want your feature workspace to be based on the latest:
+1. **Go to feature workspace**:
+   ```bash
+   cd ../repo-feature
+   jj ws-sync   # Rebases your feature workspace onto the current tip of default@
    ```
 
 ---
