@@ -26,14 +26,14 @@ echo "Workspace: ${WS_NAME}"
 # Always ensure the workspace commit has the intended message before squashing.
 # If no message was provided as an argument, we keep whatever is already there.
 if [ -n "$1" ]; then
-  echo "Describing: $1"
+  echo "Describing current working copy: $1"
   jj describe -m "$1"
 fi
 
-# Squash workspace content into default@
-# This puts the code into the 'default' working copy
-echo "Squashing ${WS_NAME}@ → default@..."
-jj squash --from "${WS_NAME}@" --into "default@"
+# Squash all work in the workspace since it diverged from main into default@
+# This handles cases where work has been 'sealed' (moved to @- or further)
+echo "Squashing ${WS_NAME} (all work since main) → default@..."
+jj squash --from "main..@" --into "default@"
 
 # Handle colocation sync - ensure Git index in main repo is current
 echo "Exporting to Git..."
