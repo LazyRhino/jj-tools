@@ -7,8 +7,8 @@ jj git fetch --all-remotes
 
 # Universal rebase: all work since main up to the current working copy
 echo "Rebasing work onto main..."
-# We use roots(main..@) to pick up everything between main and the current tip.
-jj rebase -s "roots(main..@)" -d main
+# We use roots(mutable() & main..@) to pick up only mutable work between main and the current tip.
+jj rebase -s "roots(mutable() & main..@)" -d main
 
 # Conditional Sealing: Run jj new only if there's actual work in the current working copy (@)
 # This handles both trunk-only (jj commit) and workspace (jj ws-merge/sync).
