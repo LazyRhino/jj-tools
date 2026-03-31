@@ -1,5 +1,9 @@
 #!/bin/bash
 # jj-tug.sh — Fetch, rebase, seal (if needed), export, and push main.
+#
+# This advances jj's main toward origin after your jj work; it does not align
+# jj bookmarks with an arbitrary git HEAD. For that (e.g. after git-only commits
+# in a colocated repo), use jj-git-main.sh instead.
 set -e
 
 echo "Fetching remote changes..."
