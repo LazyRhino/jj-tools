@@ -5,6 +5,7 @@ Centralized repository for JJ (Jujutsu) workflow utility scripts.
 ## Scripts Included
 
 - **`jj-tug.sh`**: Fetches latest changes, rebases onto `main`, moves the `main` bookmark, and pushes to GitHub.
+- **`jj-git-main.sh`**: Moves a jj bookmark (default `main`) to **`git HEAD`** in a **colocated** repo. Use after **git-only** commits left jj’s bookmark behind; this is **not** what `jj tug` does (`jj tug` follows rebase/export/push to **origin/main**, not arbitrary git HEAD).
 - **`jj-ws-merge.sh`**: Merges work from a feature workspace into the main workspace, exports to Git, and resets the feature workspace.
 - **`jj-ws-sync.sh`**: Rebases a feature workspace onto the current tip of `default@`, useful for keeping long-lived workspaces up to date.
 - **`jj-sync.sh`**: Syncs the main workspace, updates stale pointers, and seals squashed changes into a new commit.
@@ -24,11 +25,12 @@ Centralized repository for JJ (Jujutsu) workflow utility scripts.
 
 ```toml
 [aliases]
-tug      = ["util", "exec", "--", "/path/to/jj-tools/scripts/jj-tug.sh"]
-ws-merge = ["util", "exec", "--", "/path/to/jj-tools/scripts/jj-ws-merge.sh"]
-ws-sync  = ["util", "exec", "--", "/path/to/jj-tools/scripts/jj-ws-sync.sh"]
-sync     = ["util", "exec", "--", "/path/to/jj-tools/scripts/jj-sync.sh"]
-pr       = ["util", "exec", "--", "/path/to/jj-tools/scripts/jj-pr.sh"]
+tug       = ["util", "exec", "--", "/path/to/jj-tools/scripts/jj-tug.sh"]
+git-main  = ["util", "exec", "--", "/path/to/jj-tools/scripts/jj-git-main.sh"]
+ws-merge  = ["util", "exec", "--", "/path/to/jj-tools/scripts/jj-ws-merge.sh"]
+ws-sync   = ["util", "exec", "--", "/path/to/jj-tools/scripts/jj-ws-sync.sh"]
+sync      = ["util", "exec", "--", "/path/to/jj-tools/scripts/jj-sync.sh"]
+pr        = ["util", "exec", "--", "/path/to/jj-tools/scripts/jj-pr.sh"]
 ```
 
 ## Workflows
@@ -110,6 +112,7 @@ Used for traditional PR-based development where features are isolated on bookmar
 
 ## Tips & Troubleshooting
 
+- **`jj log main` vs `git log` disagree (colocated repo)**: Often `git HEAD` moved (e.g. commits via `git`) but the jj bookmark `main` did not. Run **`jj git-main`** (or `path/to/jj-git-main.sh`) from the project root. Optional bookmark name: `jj git-main other-bookmark`. This does not fetch or push; it only points jj at the current git revision.
 - **Stale Working Copy**: If JJ says your working copy is stale, it means another workspace updated the commit you are on. Run `jj sync` or `jj workspace update-stale`.
 - **Git Sync**: If Git isn't seeing your JJ changes, run `jj git export`. Our scripts handle this automatically.
 - **Empty Commits**: If you have a dangling "no description set" commit after a squash, run `jj abandon` or simply use `jj sync` to start fresh.
