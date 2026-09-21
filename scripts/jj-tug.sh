@@ -6,6 +6,10 @@
 # in a colocated repo), use jj-git-main.sh instead.
 set -e
 
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# shellcheck source=lib/hooks.sh
+. "$SCRIPT_DIR/lib/hooks.sh"
+
 echo "Fetching remote changes..."
 jj git fetch --all-remotes
 
@@ -34,6 +38,9 @@ jj bookmark move main --to @-
 # Export to Git so local git log/tools are immediately accurate
 echo "Exporting to Git..."
 jj git export
+
+# Repo-local gate, run against exactly what is about to be pushed
+run_pre_push_hook
 
 # Push to origin
 echo "Pushing 'main' to origin..."

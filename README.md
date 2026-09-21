@@ -11,6 +11,33 @@ Centralized repository for JJ (Jujutsu) workflow utility scripts.
 - **`jj-sync.sh`**: Syncs the main workspace, updates stale pointers, and seals squashed changes into a new commit.
 - **`jj-pr.sh`**: Helper for bookmark-based PR workflows (pushing bookmarks and syncing with trunk).
 
+## Repo-local pre-push hooks
+
+jj deliberately does not run git hooks, so husky / pre-commit / lefthook never
+fire on a jj workflow — their hooks stay installed and silent. `jj-tug.sh` and
+`jj-pr.sh push` (the only two commands here that reach a remote) instead look for
+an executable `.jj-hooks/pre-push` at the repo root and run it, with the repo root
+as cwd, immediately before pushing. A non-zero exit aborts the push.
+
+```bash
+# <your repo>/.jj-hooks/pre-push
+#!/bin/bash
+set -e
+cd frontend
+npm run typecheck
+npm run lint
+```
+
+```bash
+chmod +x .jj-hooks/pre-push
+```
+
+Because the hook runs after the rebase and bookmark move, it checks exactly the
+tree that is about to reach origin. Bypass it with `JJ_SKIP_HOOKS=1 jj tug`.
+
+The other scripts (`jj-sync.sh`, `jj pr sync`, `jj-ws-merge.sh`, `jj-ws-sync.sh`,
+`jj-git-main.sh`) are purely local and deliberately do **not** run the hook.
+
 ## Setup
 
 1. Clone this repository:
